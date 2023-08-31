@@ -12,10 +12,18 @@ double DotProduct(vector<double> A, vector<double> B){
         }
     }
     else{
-        std::cout << "Sizes of vector A and B are different.";
+        std::cout << "Error: Vector sizes different";
         return total;
     }
     return total;
+}
+
+vector<double> FindColumn(vector<vector<double>> Matrix, int column){
+    vector<double> answer;
+    for(int i = 0; i < Matrix.size();i++){
+        answer.push_back(Matrix[i][column]);
+    }
+    return answer;
 }
 
 vector<vector<double>> MatrixByScalar(double A, vector<vector<double>> B)
@@ -32,10 +40,11 @@ vector<vector<double>> MatrixByScalar(double A, vector<vector<double>> B)
     return B;
 }
 
+//Throws error unless matrix A is longer and matrix B is taller or they are of same size
 vector<vector<double>> MatrixByMatrix(vector<vector<double>> A, vector<vector<double>> B)
 {
 
-    vector<vector<double>> C(A.size(),vector<double>(B.size()));
+    vector<vector<double>> C(A.size(),vector<double>(B[0].size()));
 
     if (A.size() == B[0].size())
     {
@@ -44,16 +53,20 @@ vector<vector<double>> MatrixByMatrix(vector<vector<double>> A, vector<vector<do
             for (int j = 0; j < B[i].size(); j++)
             {
 
-                C[i][j] = 0;
+                C[i][j] = DotProduct(A[i],FindColumn(B,j));
 
             }
         }
     }
     else
     {
-        std::cout << "Error: Matrix Sizes Incompatible.";
+        std::cout << "Error: Matrix Sizes Incompatible";
     }
     return C;
+}
+
+vector<vector<double>> RotateMatrix(vector<vector<double>> A, double Angle){
+    return A;
 }
 
 void PrintMatrix(vector<vector<double>> Matrix){
@@ -62,8 +75,9 @@ void PrintMatrix(vector<vector<double>> Matrix){
         for (int j = 0; j < Matrix[i].size(); j++)
         {
 
+            std::cout << "|";
             std::cout << Matrix[i][j];
-            std::cout << "||";
+            std::cout << "|";
 
         }
 
@@ -74,8 +88,9 @@ void PrintMatrix(vector<vector<double>> Matrix){
 
 int main()
 {
-    vector<vector<double>> Matrix = { {1,2,3}, {4,5,6}, {7,8,9}};
-    
-    std::cout << DotProduct(Matrix[0],Matrix[1]);
-    
+    vector<vector<double>> MatrixA = { {1,2,5},{2,3,1}};
+    vector<vector<double>> MatrixB = {{1,5},{5,6},{6,7}};
+
+    auto MatrixC = MatrixByMatrix(MatrixA,MatrixB);
+    PrintMatrix(MatrixC);
 }
