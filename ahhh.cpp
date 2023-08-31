@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <math.h>
 
 template <typename T>
 using vector = std::vector<T>; 
@@ -65,8 +66,16 @@ vector<vector<double>> MatrixByMatrix(vector<vector<double>> A, vector<vector<do
     return C;
 }
 
-vector<vector<double>> RotateMatrix(vector<vector<double>> A, double Angle){
-    return A;
+vector<vector<double>> MatrixRotate2D(vector<vector<double>> Matrix, double Angle){
+    if(Matrix.size()==2&&Matrix[0].size()==2){
+    Angle *= 3.14159265359/180;
+    vector<vector<double>> RotationMatrix = {{cos(Angle),-sin(Angle)},{sin(Angle),cos(Angle)}};
+    return MatrixByMatrix(Matrix,RotationMatrix);
+    }
+    else{
+        std::cout << "Error: Matrix is not 2D";
+    }
+    return Matrix;
 }
 
 void PrintMatrix(vector<vector<double>> Matrix){
@@ -88,9 +97,8 @@ void PrintMatrix(vector<vector<double>> Matrix){
 
 int main()
 {
-    vector<vector<double>> MatrixA = { {1,2,5},{2,3,1}};
-    vector<vector<double>> MatrixB = {{1,5},{5,6},{6,7}};
+    vector<vector<double>> MatrixA = {{1,2},{3,4}};
 
-    auto MatrixC = MatrixByMatrix(MatrixA,MatrixB);
+    auto MatrixC = MatrixRotate2D(MatrixA,90);
     PrintMatrix(MatrixC);
 }
