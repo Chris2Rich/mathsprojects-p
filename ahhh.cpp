@@ -67,10 +67,10 @@ vector<vector<double>> MatrixByMatrix(vector<vector<double>> A, vector<vector<do
 }
 
 vector<vector<double>> MatrixRotate2D(vector<vector<double>> Matrix, double Angle){
-    if(Matrix.size()==2&&Matrix[0].size()==2){
+    if(Matrix.size()==2||Matrix[0].size()==2){
     Angle *= 3.14159265359/180;
     vector<vector<double>> RotationMatrix = {{cos(Angle),-sin(Angle)},{sin(Angle),cos(Angle)}};
-    return MatrixByMatrix(Matrix,RotationMatrix);
+    return MatrixByMatrix(RotationMatrix, Matrix);
     }
     else{
         std::cout << "Error: Matrix is not 2D";
@@ -79,18 +79,27 @@ vector<vector<double>> MatrixRotate2D(vector<vector<double>> Matrix, double Angl
 }
 
 vector<vector<double>> MatrixRotate3D(vector<vector<double>> Matrix, double a, double b, double c){
-    if(Matrix.size()==3&&Matrix[0].size()==3){
-    vector<vector<double>> RotationMatrix = {
+    if(Matrix.size()==3||Matrix[0].size()==3){
+        a,b,c *= 3.14159265359/180;
+        vector<vector<double>> RotationMatrix = {
         {cos(a)*cos(b), cos(a)*sin(b)*sin(c)-sin(a)*cos(c), cos(a)*sin(b)*cos(c)+sin(a)*sin(c)},
         {sin(a)*cos(b), sin(a)*sin(b)*sin(c)+cos(a)*cos(c), sin(a)*sin(b)*cos(c)-cos(a)*sin(c)},
         {-sin(b), cos(b)*sin(c), cos(b)*cos(c)}
         };
-    return MatrixByMatrix(Matrix,RotationMatrix);
+    return MatrixByMatrix(RotationMatrix, Matrix);
     }
     else{
-        std::cout << "Error: Matrix is not 2D";
+        std::cout << "Error: Matrix is not 3D";
     }
     return Matrix;
+}
+
+vector<vector<double>> Scale(vector<vector<double>> Matrix, vector<double> direction){
+    vector<vector<double>> ScaleMatrix(direction.size(),vector<double>(direction.size()));
+    for(int i=0; i < direction.size(); i++){
+        ScaleMatrix[i][i] = direction[i];
+    }
+    return MatrixByMatrix(ScaleMatrix, Matrix);
 }
 
 void PrintMatrix(vector<vector<double>> Matrix){
@@ -115,7 +124,8 @@ int main()
     vector<vector<double>> MatrixA = {{0,3,5},{5,5,2}};
     vector<vector<double>> MatrixB = {{3},{4},{3}};
     vector<vector<double>> MatrixC = {{0,3,5},{5,5,2},{5,7,1}};
+    vector<vector<double>> MatrixD = {{0},{1}};
 
-    auto MatrixAns = MatrixRotate3D(MatrixC,180,180,90);
+    auto MatrixAns = MatrixRotate2D(MatrixD,-30);
     PrintMatrix(MatrixAns);
 }
