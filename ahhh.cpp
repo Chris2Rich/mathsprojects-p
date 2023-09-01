@@ -61,7 +61,7 @@ vector<vector<double>> MatrixByMatrix(vector<vector<double>> A, vector<vector<do
     }
     else
     {
-        std::cout << "Error: Matrix Sizes Incompatible";
+        std::cout << "Error: Matrix Sizes Incompatible\n";
     }
     return C;
 }
@@ -73,14 +73,21 @@ vector<vector<double>> MatrixRotate2D(vector<vector<double>> Matrix, double Angl
     return MatrixByMatrix(RotationMatrix, Matrix);
     }
     else{
-        std::cout << "Error: Matrix is not 2D";
+        std::cout << "Error: Matrix is not 2D\n";
     }
     return Matrix;
 }
 
-vector<vector<double>> MatrixRotate3D(vector<vector<double>> Matrix, double a, double b, double c){
+vector<vector<double>> MatrixRotate3D(vector<vector<double>> Matrix, vector<double> direction){
     if(Matrix.size()==3||Matrix[0].size()==3){
-        a,b,c *= 3.14159265359/180;
+        double a = direction[0];
+        double b = direction[1];
+        double c = direction[2];
+
+        a *= 3.14159265359/360;
+        b *= 3.14159265359/360;
+        c *= 3.14159265359/360;
+
         vector<vector<double>> RotationMatrix = {
         {cos(a)*cos(b), cos(a)*sin(b)*sin(c)-sin(a)*cos(c), cos(a)*sin(b)*cos(c)+sin(a)*sin(c)},
         {sin(a)*cos(b), sin(a)*sin(b)*sin(c)+cos(a)*cos(c), sin(a)*sin(b)*cos(c)-cos(a)*sin(c)},
@@ -89,17 +96,22 @@ vector<vector<double>> MatrixRotate3D(vector<vector<double>> Matrix, double a, d
     return MatrixByMatrix(RotationMatrix, Matrix);
     }
     else{
-        std::cout << "Error: Matrix is not 3D";
+        std::cout << "Error: Matrix is not 3D\n";
     }
     return Matrix;
 }
 
-vector<vector<double>> Scale(vector<vector<double>> Matrix, vector<double> direction){
+vector<vector<double>> MatrixScale(vector<vector<double>> Matrix, vector<double> direction){
+    if(Matrix.size()==direction.size()){
     vector<vector<double>> ScaleMatrix(direction.size(),vector<double>(direction.size()));
     for(int i=0; i < direction.size(); i++){
         ScaleMatrix[i][i] = direction[i];
     }
-    return MatrixByMatrix(ScaleMatrix, Matrix);
+    return MatrixByMatrix(ScaleMatrix, Matrix);}
+    else{
+        std::cout << "Error: Matrix and Vector are of different size\n";
+        return Matrix;
+    }
 }
 
 void PrintMatrix(vector<vector<double>> Matrix){
@@ -121,11 +133,16 @@ void PrintMatrix(vector<vector<double>> Matrix){
 
 int main()
 {
-    vector<vector<double>> MatrixA = {{0,3,5},{5,5,2}};
+    vector<vector<double>> MatrixA = {{7,3,5},{5,4,2}};
     vector<vector<double>> MatrixB = {{3},{4},{3}};
-    vector<vector<double>> MatrixC = {{0,3,5},{5,5,2},{5,7,1}};
-    vector<vector<double>> MatrixD = {{0},{1}};
+    vector<vector<double>> MatrixC = {{1,3,4},{5,8,2},{5,7,1}};
+    vector<vector<double>> MatrixD = {{1},{1}};
 
-    auto MatrixAns = MatrixRotate2D(MatrixD,-30);
+    auto MatrixAns = MatrixRotate3D(MatrixScale(MatrixC,{1,2,1}),{180,180,0});
     PrintMatrix(MatrixAns);
+
+    std::cout << "\n";
+
+    auto MatrixAns2 = MatrixRotate2D(MatrixA,90);
+    PrintMatrix(MatrixAns2);
 }
