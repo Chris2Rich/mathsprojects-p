@@ -47,7 +47,7 @@ vector<vector<double>> MatrixByMatrix(vector<vector<double>> A, vector<vector<do
 
     vector<vector<double>> C(A.size(),vector<double>(B[0].size()));
 
-    if (A.size() == B[0].size())
+    if (A[0].size() == B.size())
     {
         for (int i = 0; i < A.size(); i++)
         {
@@ -78,6 +78,21 @@ vector<vector<double>> MatrixRotate2D(vector<vector<double>> Matrix, double Angl
     return Matrix;
 }
 
+vector<vector<double>> MatrixRotate3D(vector<vector<double>> Matrix, double a, double b, double c){
+    if(Matrix.size()==3&&Matrix[0].size()==3){
+    vector<vector<double>> RotationMatrix = {
+        {cos(a)*cos(b), cos(a)*sin(b)*sin(c)-sin(a)*cos(c), cos(a)*sin(b)*cos(c)+sin(a)*sin(c)},
+        {sin(a)*cos(b), sin(a)*sin(b)*sin(c)+cos(a)*cos(c), sin(a)*sin(b)*cos(c)-cos(a)*sin(c)},
+        {-sin(b), cos(b)*sin(c), cos(b)*cos(c)}
+        };
+    return MatrixByMatrix(Matrix,RotationMatrix);
+    }
+    else{
+        std::cout << "Error: Matrix is not 2D";
+    }
+    return Matrix;
+}
+
 void PrintMatrix(vector<vector<double>> Matrix){
     for (int i = 0; i < Matrix.size(); i++)
     {
@@ -97,8 +112,10 @@ void PrintMatrix(vector<vector<double>> Matrix){
 
 int main()
 {
-    vector<vector<double>> MatrixA = {{1,2},{3,4}};
+    vector<vector<double>> MatrixA = {{0,3,5},{5,5,2}};
+    vector<vector<double>> MatrixB = {{3},{4},{3}};
+    vector<vector<double>> MatrixC = {{0,3,5},{5,5,2},{5,7,1}};
 
-    auto MatrixC = MatrixRotate2D(MatrixA,90);
-    PrintMatrix(MatrixC);
+    auto MatrixAns = MatrixRotate3D(MatrixC,180,180,90);
+    PrintMatrix(MatrixAns);
 }
