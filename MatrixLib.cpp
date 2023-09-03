@@ -139,15 +139,3 @@ void PrintMatrix(vector<vector<double>>* Matrix){
 
     }
 }
-
-int main()
-{
-    vector<vector<double>> MatrixA = {{7,3,5},{5,4,2}};
-    vector<vector<double>> MatrixB = {{3},{4},{3}};
-    vector<vector<double>> MatrixC = {{1,3,4},{5,8,2},{5,7,1}};
-    vector<vector<double>> MatrixD = {{1},{1}};
-
-    vector<double> Rotate3DParam = {180,180,0};
-    vector<double> ScaleParam = {1,2,1};
-
-}
