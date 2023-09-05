@@ -1,17 +1,19 @@
 #include "MatrixLib.cpp"
 
 int main(){
+    time_t current_time = time(NULL);
+    srand((unsigned) time(NULL));
 
-    int testsize=0;
-    std::cout << "Input Test Size:\t";
-    std::cin >> testsize;
-    testsize = round(sqrt(testsize));
+    int testsize=512;
 
-    vector<vector<double>> A(testsize,vector<double>(testsize));
-    vector<vector<double>> B(testsize,vector<double>(testsize));
+    std::vector<std::vector<double>> A(testsize,std::vector<double>(testsize));
+    std::vector<std::vector<double>> B(testsize,std::vector<double>(testsize));
+
+    std::vector<double> C(testsize);
+    std::vector<double> D(testsize);
 
     for(int i = 0; i< testsize;i++){
-        for(int j = 0; j<testsize;j++){
+        for(int j= 0; j< testsize; j++){
             A[i][j] = rand();
             B[i][j] = rand();
         }
@@ -19,11 +21,11 @@ int main(){
 
     clock_t start, end;
     start = clock();
-
     std::ios_base::sync_with_stdio(false);
-    MatrixByMatrix(&A,&B);
-
+    auto Ans = MatrixByMatrix(&A,&B);
     end = clock();
+
     double total_time = double(end-start) / double(CLOCKS_PER_SEC);
-    std::cout << "Time taken for function : " << total_time << " secs\0";
+    std::cout << "Time taken for function : " << total_time << " secs\n";
+    return 0;
 }
