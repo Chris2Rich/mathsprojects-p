@@ -4,7 +4,27 @@
 #include <math.h>
 #include <thread>
 
+typedef double (*fn_ptr)(std::vector<double>*, std::vector<double>*);
+typedef (*param)(std::vector<double>*, std::vector<double>*)
 const unsigned int thread_count = std::thread::hardware_concurrency();
+
+struct{
+    std::vector<std::make_pair(fn_ptr,param)> Tasks;
+    std::vector<std::thread> Threads;
+    unsigned int free_threads = thread_count;
+    
+    void AddTask(fn_ptr new_task){
+        Tasks.emplace_back(new_task);
+    }
+    void FillThreads(){
+        for(free_threads; free_threads > 0; free_threads--){
+            std::thread new_thread = *new std::thread(*Tasks[0].first,*Tasks[0].second);
+            Threads.emplace_back(new_thread);
+            Tasks.erase(Tasks.begin());
+        }
+    }
+
+} ThreadManager;
 
 double DotProduct(std::vector<double>* A, std::vector<double>* B){
     if(A->size()==B->size()){ 
@@ -23,7 +43,7 @@ double DotProduct(std::vector<double>* A, std::vector<double>* B){
 std::vector<double> FindColumn(std::vector<std::vector<double>>* Matrix, int column){
     std::vector<double> answer;
     for(int i = 0; i < Matrix->size();i++){
-        answer.push_back(Matrix->operator[](i)[column]);
+        answer.emplace_back(Matrix->operator[](i)[column]);
     }
     return answer;
 }
@@ -139,4 +159,9 @@ void PrintMatrix(std::vector<std::vector<double>>* Matrix){
         std::cout << "\n";
 
     }
+}
+
+int main(){
+
+    return 0;
 }
