@@ -5,7 +5,7 @@ int main(){
     time_t now = time(&now);
     srand(now);
     
-    int testsize=1000;
+    int testsize=1024;
 
     std::vector<std::vector<double>> A(testsize,std::vector<double>(testsize));
     std::vector<std::vector<double>> B(testsize,std::vector<double>(testsize));
