@@ -4,29 +4,28 @@ int main(){
     //Seed Random Numbers
     time_t now = time(&now);
     srand(now);
-    
-    int testsize=1024;
 
-    std::vector<std::vector<double>> A(testsize,std::vector<double>(testsize));
-    std::vector<std::vector<double>> B(testsize,std::vector<double>(testsize));
+    int testsize=4;
 
-    std::vector<double> C(testsize);
-    std::vector<double> D(testsize);
+    float* a = new float[testsize];
+    float* b = new float[testsize];
 
-    for(int i = 0; i< testsize;i++){
-        for(int j= 0; j< testsize; j++){
-            A[i][j] = rand();
-            B[i][j] = rand();
-        }
+    for(int i = 0; i < testsize; i++){
+
+        a[i] = rand();
+        b[i] = rand();
     }
 
     clock_t start, end;
     start = clock();
     std::ios_base::sync_with_stdio(false);
-    auto Ans = MatrixByMatrix(&A,&B);
+
+    auto Ans= DotProduct(a,b);
+    std::cout << Ans << "\n";
+
     end = clock();
 
-    double total_time = double(end-start) / double(CLOCKS_PER_SEC);
+    float total_time = float(end-start) / float(CLOCKS_PER_SEC);
     std::cout << "Time taken for function : " << total_time << " secs\n";
     return 0;
 }

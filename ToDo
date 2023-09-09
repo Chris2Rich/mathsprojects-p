@@ -1,6 +1,9 @@
+rewrite matrixlib to use static arrays 0
+add matrix printing 0
 improve matrix multiplication 0
+reimplement Multithreading 0
 Add Shear function 0
+add scale function 0
 add rendering engine 0
-improve Multithreading 0
 Improve BenchMark -> Autogenerating inputs based on given function 0
 Add n dimensional rotation matrix 0
