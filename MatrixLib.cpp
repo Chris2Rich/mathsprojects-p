@@ -4,27 +4,7 @@
 #include <math.h>
 #include <thread>
 
-typedef double (*fn_ptr)(std::vector<double>*, std::vector<double>*);
-typedef (*param)(std::vector<double>*, std::vector<double>*)
 const unsigned int thread_count = std::thread::hardware_concurrency();
-
-struct{
-    std::vector<std::make_pair(fn_ptr,param)> Tasks;
-    std::vector<std::thread> Threads;
-    unsigned int free_threads = thread_count;
-    
-    void AddTask(fn_ptr new_task){
-        Tasks.emplace_back(new_task);
-    }
-    void FillThreads(){
-        for(free_threads; free_threads > 0; free_threads--){
-            std::thread new_thread = *new std::thread(*Tasks[0].first,*Tasks[0].second);
-            Threads.emplace_back(new_thread);
-            Tasks.erase(Tasks.begin());
-        }
-    }
-
-} ThreadManager;
 
 double DotProduct(std::vector<double>* A, std::vector<double>* B){
     if(A->size()==B->size()){ 
@@ -68,17 +48,24 @@ std::vector<std::vector<double>> MatrixByMatrix(std::vector<std::vector<double>>
 {
 
     std::vector<std::vector<double>> C(A->size(),std::vector<double>(B->operator[](0).size()));
+    std::vector<std::thread*> Threads(0);
 
     if (A->operator[](0).size() == B->size())
     {
         for (int i = 0; i < A->size(); i++)
         {
-            for (int j = 0; j < B->operator[](i).size(); j++)
-            {
-                std::vector<double> BRow = FindColumn(B,j);
-                C[i][j] = DotProduct(&A->operator[](i),&BRow);
-
-            }
+            auto func = [A,B,&C,i]()->void{
+                for (int j = 0; j < B->operator[](i).size(); j++)
+                {
+                    std::vector<double> BRow = FindColumn(B,j);
+                    C[i][j] = DotProduct(&A->operator[](i),&BRow);
+                }
+            };
+            Threads.emplace_back(new std::thread(func));
+        }
+        for(auto th: Threads)
+        {
+            th->join();
         }
     }
     else
@@ -159,9 +146,4 @@ void PrintMatrix(std::vector<std::vector<double>>* Matrix){
         std::cout << "\n";
 
     }
-}
-
-int main(){
-
-    return 0;
 }

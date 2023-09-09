@@ -1,10 +1,7 @@
 #include "MatrixLib.cpp"
 
 int main(){
-    time_t current_time = time(NULL);
-    srand((unsigned) time(NULL));
-
-    int testsize=512;
+    int testsize=1000;
 
     std::vector<std::vector<double>> A(testsize,std::vector<double>(testsize));
     std::vector<std::vector<double>> B(testsize,std::vector<double>(testsize));
