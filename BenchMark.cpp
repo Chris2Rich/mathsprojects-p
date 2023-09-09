@@ -1,6 +1,10 @@
-#include "MatrixLib.cpp"
+#include "MatrixLib.hpp"
 
 int main(){
+    //Seed Random Numbers
+    time_t now = time(&now);
+    srand(now);
+    
     int testsize=1000;
 
     std::vector<std::vector<double>> A(testsize,std::vector<double>(testsize));

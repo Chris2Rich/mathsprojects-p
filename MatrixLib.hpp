@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <numeric>
 #include <math.h>
 #include <thread>
 
@@ -52,6 +51,8 @@ std::vector<std::vector<double>> MatrixByMatrix(std::vector<std::vector<double>>
 
     if (A->operator[](0).size() == B->size())
     {
+        //Add chunking to each line, divide size of A by threads and then modify func to only have as many threads as needed.
+        //allocating more to each threads means that thread power is maximized and all tasks are being handled at once which optimizes speed
         for (int i = 0; i < A->size(); i++)
         {
             auto func = [A,B,&C,i]()->void{
