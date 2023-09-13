@@ -5,15 +5,14 @@ int main(){
     time_t now = time(&now);
     srand(now);
 
-    int testsize=8;
+    int testsize = 259677;
 
     float (A)[testsize];
     float (B)[testsize];
 
     for(int i = 0; i < testsize; i++){
-
-        A[i] = 3;//rand();
-        B[i] = 2;//rand();
+        A[i] = 2;
+        B[i] = 5;
     }
 
     clock_t start, end;
