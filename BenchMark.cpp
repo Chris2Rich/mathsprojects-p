@@ -5,7 +5,7 @@ int main(){
     time_t now = time(&now);
     srand(now);
 
-    int testsize = 259677;
+    int testsize = 200000;
 
     float (A)[testsize];
     float (B)[testsize];

@@ -6,7 +6,7 @@
 
 const unsigned int thread_count = std::thread::hardware_concurrency();
 
-float DotProduct(float (*A)[], float (*B)[], int size){
+inline float DotProduct(float (*A)[], float (*B)[], int size){
     float ans = 0;
     for(int i = 0; i < size; i+=4){
         __m128 VectA = _mm_load_ps(*A+i);
