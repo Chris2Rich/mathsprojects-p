@@ -20,7 +20,7 @@ int main(){
     start = clock();
     std::ios_base::sync_with_stdio(false);
 
-    auto Ans= DotProduct(&A,&B);
+    auto Ans= DotProduct(&A,&B,testsize);
 
     end = clock();
 
