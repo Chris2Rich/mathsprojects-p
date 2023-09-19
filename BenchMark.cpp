@@ -5,10 +5,10 @@ int main(){
     time_t now = time(&now);
     srand(now);
 
-    int testsize = 200000;
+    int testsize = 3;//200000;
 
-    float (A)[testsize];
-    float (B)[testsize];
+    float (A)[testsize] {1,2,3};
+    float (B)[testsize] {4,5,6};
 
     clock_t start, end;
     start = clock();
