@@ -19,7 +19,7 @@ inline float DotProduct(float* A, float* B, int size){
     return ans;
 }
 
-float** MatrixByMatrix(int l, int n){
+float** MatrixByMatrix(int l, int n, float** A, float** B){
     float** C = *new float**;
     
     return C;
