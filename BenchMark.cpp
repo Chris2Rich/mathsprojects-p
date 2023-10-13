@@ -5,10 +5,10 @@ int main(){
     time_t now = time(&now);
     srand(now);
 
-    int testsize = 3;//200000;
+    int testsize = 200000;
 
-    float (A)[testsize] {1,2,3};
-    float (B)[testsize] {4,5,6};
+    float (A)[testsize];
+    float (B)[testsize];
 
     clock_t start, end;
     start = clock();
@@ -18,8 +18,8 @@ int main(){
 
     end = clock();
 
-    float total_time = float(end-start) / float(CLOCKS_PER_SEC);
-    std::cout << "Time taken for function : " << total_time << " secs\n";
+    double total_time = (end - start) / (float)CLOCKS_PER_SEC;
+    std::cout << "Elapsed Time : " << total_time << "s\n";
     std::cout << Ans;
     return 0;
 }
