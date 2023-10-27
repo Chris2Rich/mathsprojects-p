@@ -1,4 +1,4 @@
-#include "MatrixLib.hpp"
+#include "MatrixProduct.hpp"
 
 int main(){
     //Seed Random Numbers
