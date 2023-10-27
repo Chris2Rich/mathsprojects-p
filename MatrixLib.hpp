@@ -2,27 +2,48 @@
 #include <math.h>
 #include <thread>
 #include <x86intrin.h>
+#include <vector>
+using std::vector;
 
 const unsigned int thread_count = std::thread::hardware_concurrency();
 
-inline float DotProduct(float* A, float* B, int size){
-    std::thread* ThreadList[thread_count];
+vector<vector<float>> Transpose(vector<vector<float>> A){
+    vector<vector<float>> Ans((A[0].size()),vector<float>(A.size()));
+    
+    #pragma omp parallel for
+    for(int i = 0; i < A.size(); i++){
+        for(int j = 0; j < A[0].size(); j++){
+            Ans[j][i] = A[i][j];
+        }
+    }
+    return Ans;
+}
+
+inline float DotProduct(vector<float> A, vector<float> B){
     float ans = 0;
 
-        for(int i = 0; i < size; i+=4){
-            __m128 VectA = _mm_load_ps(A+i);
-            __m128 VectB = _mm_load_ps(B+i);
-            __m128 VectAns = _mm_mul_ps(VectA,VectB);
-            for(int j = 0; j < 4; j++){
-                ans += VectAns[j];
-            }
+    #pragma omp parallel for
+    for(int i = 0; i < A.size(); i+=4){
+        __m128 VectA = _mm_load_ps(&A[i]);
+        __m128 VectB = _mm_load_ps(&B[i]);
+        __m128 VectAns = _mm_mul_ps(VectA,VectB);
+        for(int j = 0; j < 4; j++){
+            ans += VectAns[j];
         }
+    }
 
     return ans;
 }
 
-float** MatrixByMatrix(int l, int n, float** A, float** B){
-    float** C = *new float**;
-    
-    return C;
+vector<vector<float>> MatrixProduct(vector<vector<float>> A, vector<vector<float>> B){
+    B = Transpose(B);
+    vector<vector<float>> Ans(A.size(),vector<float>(B.size()));
+
+    #pragma omp parallel for
+    for(int i = 0; i < Ans.size(); i++){
+        for(int j = 0; j < Ans.size(); j++){
+            Ans[i][j] = DotProduct(A[i],B[j]);
+        }
+    }
+    return Ans;
 }
