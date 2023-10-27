@@ -3,13 +3,14 @@
 #include <thread>
 #include <x86intrin.h>
 #include <vector>
+#include <omp.h>
 using std::vector;
 
 const unsigned int thread_count = std::thread::hardware_concurrency();
 
 vector<vector<float>> Transpose(vector<vector<float>> A){
     vector<vector<float>> Ans((A[0].size()),vector<float>(A.size()));
-    
+
     #pragma omp parallel for
     for(int i = 0; i < A.size(); i++){
         for(int j = 0; j < A[0].size(); j++){
@@ -22,7 +23,6 @@ vector<vector<float>> Transpose(vector<vector<float>> A){
 inline float DotProduct(vector<float> A, vector<float> B){
     float ans = 0;
 
-    #pragma omp parallel for
     for(int i = 0; i < A.size(); i+=4){
         __m128 VectA = _mm_load_ps(&A[i]);
         __m128 VectB = _mm_load_ps(&B[i]);
@@ -41,6 +41,7 @@ vector<vector<float>> MatrixProduct(vector<vector<float>> A, vector<vector<float
 
     #pragma omp parallel for
     for(int i = 0; i < Ans.size(); i++){
+        #pragma omp parallel for
         for(int j = 0; j < Ans.size(); j++){
             Ans[i][j] = DotProduct(A[i],B[j]);
         }
