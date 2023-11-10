@@ -14,7 +14,7 @@ int main(){
     start = clock();
     std::ios_base::sync_with_stdio(false);
 
-    auto Ans = MatrixProduct(A,B);
+    auto Ans = MatrixProduct(&A,&B);
 
     end = clock();
 
