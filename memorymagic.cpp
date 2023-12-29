@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
 template <typename T>
-T* staticpromote(T x){
+T* promote(T* x){
     void* space = new T();
-    *(T*)space = x;
+    *(T*)space = *x;
     return (T*)space;
 }
 
@@ -23,7 +23,7 @@ std::vector<T>* map(T(*func)(T), std::vector<T>* vec){
         temp[i] = func(vec->operator[](i));
     }
 
-    return staticpromote(temp);
+    return promote(&temp);
 }
 
 template <typename T>
@@ -35,7 +35,7 @@ std::vector<T>* sigma(T(*func)(T), std::vector<T>* vec){
         temp[i] = tempv;
     }
 
-    return staticpromote(temp);
+    return promote(&temp);
 }
 
 int addone(int x){return x+1;}
