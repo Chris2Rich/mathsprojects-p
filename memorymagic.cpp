@@ -2,7 +2,7 @@
 
 template <typename T>
 T* staticpromote(T x){
-    void* space = new T;
+    void* space = new T();
     *(T*)space = x;
     return (T*)space;
 }
