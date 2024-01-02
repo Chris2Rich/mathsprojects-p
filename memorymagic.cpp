@@ -1,16 +1,20 @@
 #include <bits/stdc++.h>
 
 template <typename T>
+std::vector<T> promotedpointers;
+
+template <typename T>
 T* promote(T* x){
     void* space = new T();
     *(T*)space = *x;
+    promotedpointers<T*>.push_back((T*) space);
     return (T*)space;
 }
 
 template<typename T>
 void print(std::vector<T>* vec){
     for(int i = 0; i < vec->size(); i++){
-        std::cout << vec->operator[](i) << '\n';
+        std::cout << vec->operator[](i) << ", ";
     }
 
     return;
@@ -41,9 +45,22 @@ std::vector<T>* sigma(T(*func)(T), std::vector<T>* vec){
 int addone(int x){return x+1;}
 
 int main(){
-    std::vector<int> test1 = {1,2,3,4,5,6,7,8,9,10};
-    std::vector<int> test2 = {};
+    size_t maxpromotions = 1000;
 
-    print(sigma(&addone, &test1));
+    size_t vectorsize = 100000;
+    size_t itercount = 100000;
+    
+    std::vector<int> test(vectorsize, 0);
+
+    for(int i = 0; i < itercount; i++){
+        sigma(&addone, &test);
+        if(promotedpointers<std::vector<int>*>.size() > maxpromotions){
+            for(auto ptr: promotedpointers<std::vector<int>*>){
+                delete ptr;
+            }
+            promotedpointers<std::vector<int>*>.clear();
+        }
+    }
+
     return 0;
 }
