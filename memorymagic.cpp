@@ -45,9 +45,9 @@ std::vector<T>* sigma(T(*func)(T), std::vector<T>* vec){
 int addone(int x){return x+1;}
 
 int main(){
-    size_t maxpromotions = 1000;
+    size_t maxpromotions = 10;
 
-    size_t vectorsize = 100000;
+    size_t vectorsize = 100;
     size_t itercount = 100000;
     
     std::vector<int> test(vectorsize, 0);
@@ -58,7 +58,7 @@ int main(){
             for(auto ptr: promotedpointers<std::vector<int>*>){
                 delete ptr;
             }
-            promotedpointers<std::vector<int>*>.clear();
+            promotedpointers<std::vector<int>*>.erase(promotedpointers<std::vector<int>*>.begin(),promotedpointers<std::vector<int>*>.end());
         }
     }
 
