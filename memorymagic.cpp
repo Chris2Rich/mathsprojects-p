@@ -45,7 +45,7 @@ std::vector<T>* sigma(T(*func)(T), std::vector<T>* vec){
 int addone(int x){return x+1;}
 
 int main(){
-    size_t maxpromotions = 10;
+    size_t maxpromotions = 100;
 
     size_t vectorsize = 100;
     size_t itercount = 100000;
